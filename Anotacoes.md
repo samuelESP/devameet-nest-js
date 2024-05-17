@@ -186,3 +186,21 @@ O construtor injeta uma instância do serviço AuthService para que ele possa se
 
 # login(@Body() dto: LoginDto): 
 Este método manipula as solicitações de login. Ele espera receber um objeto LoginDto no corpo da solicitação e então repassa esse objeto para o método login() do serviço AuthService.
+
+# ConfigModule.forRoot():
+
+## ConfigModule: 
+Este módulo é geralmente usado para carregar e gerenciar variáveis de configuração da aplicação, como as que estão definidas em arquivos .env.
+## forRoot(): 
+Este método é chamado para configurar o módulo de configuração com as opções padrão. Ele normalmente carrega as variáveis de ambiente definidas em um arquivo .env na raiz do projeto.
+
+# MongooseModule.forRoot(process.env.DATABASE_URL):
+
+## MongooseModule: 
+Este módulo é usado para integrar o Mongoose, uma biblioteca de modelagem de dados para MongoDB, com o NestJS.
+## forRoot(process.env.DATABASE_URL): 
+Este método é chamado para configurar a conexão com o banco de dados MongoDB. O URL do banco de dados é obtido a partir da variável de ambiente DATABASE_URL. process.env.DATABASE_URL acessa essa variável, permitindo que a aplicação se conecte ao MongoDB usando a URL especificada.
+
+
+Carrega as variáveis de configuração de um arquivo .env usando o ConfigModule.
+Configura a conexão com um banco de dados MongoDB usando o MongooseModule e a URL especificada na variável de ambiente DATABASE_URL.
