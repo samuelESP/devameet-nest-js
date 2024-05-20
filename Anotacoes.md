@@ -204,3 +204,63 @@ Este método é chamado para configurar a conexão com o banco de dados MongoDB.
 
 Carrega as variáveis de configuração de um arquivo .env usando o ConfigModule.
 Configura a conexão com um banco de dados MongoDB usando o MongooseModule e a URL especificada na variável de ambiente DATABASE_URL.
+
+# Schema
+
+```ts
+
+@Schema()
+export class User{
+
+    @Prop({required: true})
+    name:string;
+    @Prop({required: true})
+    email:string;
+    @Prop({required: true})
+    password:string;
+    @Prop()
+    avatar:string;
+}
+```
+
+# @Prop
+
+Podemos chamar o @Prop de @Propriedades, ele literalmente via ser responsável para adicionar **Propriedades** ao meu Schema.
+Se você não usar o decorador @Prop no seu esquema ao definir uma classe de documento no NestJS com Mongoose, o SchemaFactory.createForClass não terá as informações necessárias para mapear as propriedades da classe para o esquema Mongoose corretamente.
+
+
+# SchemaFactory.createForClass()
+
+ é um método utilizado para criar um esquema Mongoose a partir de uma classe TypeScript. Isso é parte da integração do NestJS com Mongoose para fornecer uma forma mais estruturada e tipada de definir modelos de dados.
+
+
+# HydratedDocument&lt;User&gt;
+
+É um tipo genérico fornecido por Mongoose que representa um documento que foi "hidratado".
+Hidratar um documento significa que ele foi convertido de um objeto simples (plain object) para uma instância de um documento Mongoose completo, com todos os métodos e propriedades do Mongoose.
+Em Mongoose, "hidratação" refere-se ao processo de preencher um documento Mongoose com métodos e propriedades adicionais que Mongoose adiciona, como métodos de instância (save, remove, etc.).
+
+
+```ts
+export type UserDocument = HydratedDocument<User>;
+
+```
+O tipo genérico ***User*** é passado para HydratedDocument, indicando que estamos lidando com documentos baseados na classe ***User***.
+Quando você trabalha com documentos Mongoose, você frequentemente precisa de acesso não apenas aos dados brutos armazenados no documento, mas também aos métodos e propriedades que Mongoose adiciona. 
+Ao definir UserDocument como um HydratedDocument&lt;User&gt;, você está dizendo ao TypeScript que este documento inclui todas as propriedades e métodos da classe User, bem como as funcionalidades adicionais do Mongoose.
+
+Quando você utiliza o tipo HydratedDocument do Mongoose, está dizendo ao TypeScript que o documento retornado não é apenas um simples objeto com as propriedades definidas em sua classe, mas também um objeto enriquecido com as funcionalidades adicionais do Mongoose.
+
+"Hidratar" um documento no contexto do Mongoose significa transformar um documento cru, que é basicamente um simples objeto JavaScript, em um objeto Mongoose completo. 
+Isso envolve adicionar métodos e propriedades adicionais fornecidos pelo Mongoose. 
+Esses métodos e propriedades adicionais permitem que você interaja com o documento de forma mais rica, como salvar, atualizar, remover, e validar dados, além de muitas outras funcionalidades específicas do Mongoose.
+
+# @InjectModel()
+
+é usado para injetar um modelo Mongoose em um serviço. Quando você define uma injeção de modelo dessa maneira, está configurando seu serviço para interagir com a coleção MongoDB correspondente.
+
+
+# MongooseModule.forFeature()
+
+O método MongooseModule.forFeature() no NestJS é utilizado para registrar modelos Mongoose que estarão disponíveis para injeção de dependências dentro de um módulo específico. Isso permite que você defina quais esquemas de dados (modelos) estarão disponíveis e possam ser injetados nos serviços e controladores do módulo em questão.
+
