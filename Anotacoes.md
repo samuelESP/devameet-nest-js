@@ -264,3 +264,62 @@ Esses métodos e propriedades adicionais permitem que você interaja com o docum
 
 O método MongooseModule.forFeature() no NestJS é utilizado para registrar modelos Mongoose que estarão disponíveis para injeção de dependências dentro de um módulo específico. Isso permite que você defina quais esquemas de dados (modelos) estarão disponíveis e possam ser injetados nos serviços e controladores do módulo em questão.
 
+# PassportStrategy
+
+uma classe base fornecida pela biblioteca @nestjs/passport, que integra o Passport.js ao NestJS. PassportStrategy é um generic class que aceita um parâmetro, neste caso, Strategy, que especifica o tipo de estratégia de autenticação que está sendo implementada.
+Aqui, Strategy refere-se à estratégia JWT do Passport.js, fornecida pelo pacote passport-jwt.
+
+## Passport.js: 
+É uma biblioteca de middleware de autenticação para Node.js. Suporta várias estratégias de autenticação, incluindo JWT.
+
+Ao herdar de PassportStrategy, a nova classe ganha a infraestrutura necessária para implementar uma estratégia de autenticação usando JWT.
+
+# jwtFromRequest: 
+
+É uma propriedade de configuração que especifica como o JWT (JSON Web Token) será extraído da solicitação HTTP. 
+Esta configuração é necessária para que a estratégia JWT saiba onde encontrar o token no pedido HTTP.
+
+
+# ExtractJwt.
+
+É um objeto importado do pacote passport-jwt. Ele fornece métodos auxiliares para extrair o token JWT de diferentes partes da solicitação HTTP.
+
+# fromAuthHeaderAsBearerToken()
+
+É um método do objeto ExtractJwt. Este método especifica que o token JWT deve ser extraído do cabeçalho de autorização da solicitação HTTP, onde o token é enviado como um "Bearer token".
+
+Este método analisa o cabeçalho de autorização, procura um valor que comece com a palavra "Bearer" seguida de um espaço e, em seguida, extrai e retorna o token que segue.
+
+
+# ignoreExpiration: true
+
+uma propriedade de configuração usada na estratégia JWT que indica se a expiração do token JWT deve ser ignorada durante o processo de validação.
+
+# secretOrKey: process.env.USER_JWT_SECRET_KEY,
+
+ é uma propriedade de configuração que define a chave secreta ou chave pública usada para verificar a assinatura do token JWT.
+
+# validate(payload:any)
+## validate
+O nome do método. Em estratégias de autenticação do Passport.js, o método validate é invocado automaticamente após o token JWT ser decodificado e verificado.
+
+## payload: any 
+O parâmetro payload representa os dados decodificados do token JWT. Geralmente, o payload contém informações sobre o usuário e outros dados adicionais que foram codificados no token.
+
+# return { userId: payload.sub, email: payload.email }
+
+O método retorna um objeto que contém o userId e o email extraídos do payload do token JWT.
+payload.sub: sub é uma abreviação de "subject" e normalmente contém o identificador principal do usuário (como o ID do usuário) no token JWT.
+payload.email: O campo email do payload contém o endereço de e-mail do usuário.
+
+# JwtModule.register({})
+
+Este é o módulo fornecido pelo pacote @nestjs/jwt. Ele facilita a configuração e o uso de JWT (JSON Web Tokens) em uma aplicação NestJS.
+
+Register método estático é usado para configurar o JwtModule com as opções fornecidas. Ele retorna um módulo configurado que pode ser importado em outros módulos da aplicação NestJS.
+O objeto passado para register contém as opções de configuração para o módulo JWT.
+# secret: process.env.USER_JWT_SECRET_KEY
+
+ Esta é uma das opções de configuração mais importantes. Ela define a chave secreta usada para assinar e verificar os tokens JWT.
+
+ 
