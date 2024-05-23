@@ -322,4 +322,57 @@ O objeto passado para register contém as opções de configuração para o mód
 
  Esta é uma das opções de configuração mais importantes. Ela define a chave secreta usada para assinar e verificar os tokens JWT.
 
- 
+# Guards
+
+Os Guards são como se fossem chaves que permitem travarmos uma função, endpoint, etc para que so sejam requeridos no momento que queremos.
+No nosso caso, os Guards vão travar tudo, e so as coisas publicas serão as exceções.
+
+
+# SetMetadata
+
+É uma função fornecida pelo NestJS que permite definir metadados personalizados para rotas, controladores, ou métodos.
+Metadados são informações adicionais que não afetam diretamente a lógica do programa, mas que podem ser usadas por outros componentes ou middlewares para modificar o comportamento.
+
+***SetMetadata(IS_PUBLIC_KEY, true)***: Define um metadado com a chave ***IS_PUBLIC_KEY*** e o valor ***true***.
+
+***IsPublic*** é um decorator que a gente criou para armazenar essas metadados.
+
+Um metadado criado com SetMetadata necessita de uma key onde o metadado é armazenado(`IS_PUBLIC_KEY = 'is_Public'`), e de um dado que se associa a essa key(no caso `true`);
+
+Esse metadado pode ser usado com a função ***Reflector***
+
+# AuthGuard
+
+
+AuthGuard vem do Passport.JS, configurada para usar a estratégia 'jwt'.
+
+Utilizada para proteger rotas e controlar o acesso baseado em tokens JWT.
+
+Quando usamos ***AuthGuard*** em ***NestJS***, ele trabalha em conjunto com o Passport para proteger rotas, controladores ou mesmo toda a aplicação.
+
+
+# Reflector
+
+Utilizado para acessar os metadados definidos pelos decorators, como IsPublic.
+super() chama o construtor da classe base AuthGuard('jwt')
+
+# canActivate
+
+Esse método é usado geralmente com um ***GUARD*** para determinar quando uma requisição deverá ser permitada baseada em certos critérios. 
+
+# context: ExecutionContext
+
+Proporciona detalhes sobre o contexto da execução atual (como o manipulador da rota e a classe do controlador).
+
+
+# getAllAndOverride
+
+O método getAllAndOverride procura o metadado IS_PUBLIC_KEY no manipulador da rota e na classe do controlador.
+
+
+# [context.getHandler(), context.getClass()]
+
+Uma lista de alvos onde o Reflector vai procurar o metadado. Primeiro, ele busca no manipulador da rota (context.getHandler()), e se não encontrar, busca na classe do controlador (context.getClass()).
+
+context.getHandler(): Refere-se ao método específico que lida com a rota.
+context.getClass(): Refere-se à classe do controlador onde o método está definido.
