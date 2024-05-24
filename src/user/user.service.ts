@@ -4,6 +4,7 @@ import { User, UserDocument } from "./schemas/user.schema";
 import { Model } from "mongoose";
 import { RegisterDto } from "./dtos/register.dto";
 import * as CryptoJS from 'crypto-js';
+import { UpdateUserDto } from "./dtos/updateuser.dto";
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,7 @@ export class UserService {
     }
 
     async getUserByLoginPassword(email: String, password: String): Promise<UserDocument|null> {
-        console.log(email, password);
+        
         
         const user  = await this.userModel.findOne({ email }) as UserDocument;
         
@@ -51,5 +52,9 @@ export class UserService {
 
     async getUserById(id: String){
         return await this.userModel.findById(id);
+    }
+
+    async updateUser(id: string, dto: UpdateUserDto){
+        return await this.userModel.findByIdAndUpdate(id, dto);
     }
 }
