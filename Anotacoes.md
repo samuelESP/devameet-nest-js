@@ -376,3 +376,11 @@ Uma lista de alvos onde o Reflector vai procurar o metadado. Primeiro, ele busca
 
 context.getHandler(): Refere-se ao método específico que lida com a rota.
 context.getClass(): Refere-se à classe do controlador onde o método está definido.
+
+# @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'User'})user: User;
+
+Define uma propriedade chamada user, que se referência a um documento ***User*** em outra coleção.
+
+A propriedade `user` é um `ObjectId`. **ObjectId** é um tipo do especial usado pelo MongoDB com indentidade única de um documento.
+
+    
