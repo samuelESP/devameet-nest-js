@@ -383,4 +383,15 @@ Define uma propriedade chamada user, que se referência a um documento ***User**
 
 A propriedade `user` é um `ObjectId`. **ObjectId** é um tipo do especial usado pelo MongoDB com indentidade única de um documento.
 
-    
+# @Type()
+
+É usado para especificar o tipo de uma propriedade. Isso é especialmente útil quando estamos lidando com propriedades aninhadas ou arrays de objetos.
+O @Type, espera um callback.
+
+# @ValidateNested
+
+É usado para validar objetos aninhados.
+
+O parâmetro ****{ each: true }**** indica que a validação deve ser aplicada a cada item do array, se a propriedade em questão for um array de objetos.
+
+Quando eu receber um array ele vai receber cada um dos elementos e executar a validação de cada um dos objetos para ter certeza que eles estão certos.
