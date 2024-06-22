@@ -395,3 +395,45 @@ O @Type, espera um callback.
 O parâmetro ****{ each: true }**** indica que a validação deve ser aplicada a cada item do array, se a propriedade em questão for um array de objetos.
 
 Quando eu receber um array ele vai receber cada um dos elementos e executar a validação de cada um dos objetos para ter certeza que eles estão certos.
+
+# Websocket
+
+WebSocket é uma tecnologia que fornece um canal de comunicação bidirecional full-duplex sobre uma única conexão TCP. Essa tecnologia é utilizada principalmente para permitir uma comunicação interativa entre um navegador e um servidor web, em tempo real. 
+
+Imagine o cenário:
+
+    Dentro de um jogo, multiplayer, existe 2 jogadores em uma mesma sala.
+    Um dos jogadores decide mexer seu personagem, fazendo assim uma requisição para o servidor.
+    Porém, se tem 2 jogadores, o outro jogador também tem que ver o primeiro jogador mexendo.
+    Logo, o servidor tem que passar essa informação para o computador do segundo jogador.
+
+O websocket veio para facilitar esse processo, ele cria um caminho entre o servidor e o cliente.
+Então ao inves de fazer uma requisição direta para o servidor, o cliente vai requerir para o websocket, para assim o sevidor receber a informação.
+
+
+# gateway
+
+Um gateway, no contexto de desenvolvimento de software e redes, é um ponto de acesso que serve como entrada e saída para comunicação entre diferentes redes ou sistemas. 
+Em termos simples, um gateway atua como um intermediário que permite que dados fluam entre diferentes ambientes, seja entre redes locais, 
+entre uma rede local e a Internet, ou entre diferentes partes de uma aplicação.
+
+# WebSocket
+
+WebSocket é uma tecnologia que fornece um canal de comunicação bidirecional full-duplex sobre uma única conexão TCP. 
+Essa tecnologia é utilizada principalmente para permitir uma comunicação interativa entre um navegador e um servidor web, em tempo real. 
+
+# @WebSocketGateway
+
+é um decorator utilizado no framework NestJS para definir uma gateway WebSocket.
+ste decorator é aplicado a uma classe para configurar um servidor WebSocket que pode escutar eventos e enviar mensagens em tempo real. 
+
+
+# @WebSocketServer()wss: Server;
+
+é uma linha de código em NestJS que injeta a instância do servidor WebSocket (Server do socket.io) em uma propriedade da classe. 
+Isso permite que você interaja diretamente com o servidor WebSocket para emitir eventos e gerenciar conexões. 
+@WebSocketServer(): Este é um decorator fornecido pelo módulo @nestjs/websockets. Ele marca a propriedade wss para ser injetada com a instância do servidor WebSocket.
+wss: Server;: Define uma propriedade chamada wss do tipo Server (a classe Server é importada do socket.io). Isso é onde a instância do servidor WebSocket será armazenada.
+
+
+
