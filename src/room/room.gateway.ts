@@ -23,8 +23,23 @@ export class RoomGateway implements OnGatewayInit , OnGatewayDisconnect {
   @WebSocketServer() wss: Server;
   private activeSockets: ActiveSocketType[] = [];
 
-  handleDisconnect(client: any) {
-    this.logger.debug(`Client: ${client.id} desconnected`);
+  async handleDisconnect(client: any) {
+    
+    const existingOnSocket =  this.activeSockets.find(
+      socket => socket.id === client.id
+    )
+
+    if(!existingOnSocket) return;
+
+    this.activeSockets = this.activeSockets.filter(
+      socket => socket !== client.id
+    );
+
+    await this.service.deleteUsersPosition(client.id);
+    client.broadcast.emit(`${existingOnSocket.room}-remove-user `, {socketId: client.id})
+
+
+    this.logger.debug(`Client: ${client.id} disconnected`);
   }
 
   afterInit(server: any) {
