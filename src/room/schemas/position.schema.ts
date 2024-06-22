@@ -30,7 +30,7 @@ export class Position {
     y:number;
     
     @Prop({required: true})
-    orientation: String;
+    orientation: string;
     
     @Prop({default: false})
     muted: boolean;

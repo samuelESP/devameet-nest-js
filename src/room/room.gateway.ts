@@ -63,7 +63,7 @@ export class RoomGateway implements OnGatewayInit , OnGatewayDisconnect {
         userId,
         x: 2, 
         y: 2, 
-        orientantion: "down"
+        orientation: 'down'
       } as UpdateUserPositionDto;
 
       await this.service.updateUserPosition(client.id, dto);
@@ -84,24 +84,43 @@ export class RoomGateway implements OnGatewayInit , OnGatewayDisconnect {
 
   @SubscribeMessage('move')
   async handleMove(client: Socket, payload: UpdateUserPositionDto){
-    const {link, userId, x,y, orientantion} = payload;
+    const {link, userId, x,y, orientation} = payload;
     const dto = { 
       link,
       userId,
       x,
       y,
-      orientantion
+      orientation
     } as UpdateUserPositionDto;
     await this.service.updateUserPosition(client.id, dto);
     const users = await this.service.listUsersPositionByLink(link);
     this.wss.emit(`${link}-update-user-list`, {users});
   }
 
-  @SubscribeMessage('toggle-user-mute')
+  @SubscribeMessage('toggl-mute-user')
   async handleToggleMute(_: Socket, payload: ToggleMuteDto){
     const {link} = payload;
     await this.service.updateUserMute(payload);
     const users = await this.service.listUsersPositionByLink(link);
     this.wss.emit(`${link}-update-user-list`, {users});
   }
+  
+  @SubscribeMessage('call-user')
+  async callUser(client: Socket, data: any){
+    this.logger.debug(`callUser: ${client.id} to: ${data.to}`)
+    client.to(data.to).emit('call-made',{
+      offer: data.offer,
+      socket: client.id
+    });
+  }
+  @SubscribeMessage('make-answer')
+  async makeAnswer(client: Socket, data: any){
+    this.logger.debug(`makeAnswer: ${client.id} to: ${data.to}`)
+    client.to(data.to).emit('answer-made',{
+      answer: data.answer,
+      socket: client.id
+    })
+  }
+  
+  
 }
