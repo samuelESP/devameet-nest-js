@@ -12,6 +12,33 @@ type ActiveSocketType ={
   userId: String;
 }
 
+// interface da posição dos usuários
+type Positions = {
+  x: number;
+  y:number;
+}
+
+
+// função para gerar todas as posições do usuarios
+function generationAllPositions(allX: number, allY: number): Positions[]{
+  const positions: Positions[] =[];
+  for(let x = 1; x <=allX; x++){
+    for(let y = 1; y <=allY; y++){
+      positions.push({x,y})
+    }
+  } 
+  return positions;
+}//vai me devolver algo como [{1,1},{1,2},{1,3}....{8,7},{8,8}]
+
+
+// Coloca uma posição aleatória para cada usuário
+function randomPosition(openPosition: Positions[]) : Positions{ 
+// Positions[] -> devolve uma array de posições; Positions -> Devolve uma única posição
+const random = Math.floor(Math.random() * openPosition.length);
+return openPosition.splice(random, 1)[0];
+}
+
+
 @WebSocketGateway({cors: true})
 export class RoomGateway implements OnGatewayInit , OnGatewayDisconnect {
   
@@ -22,6 +49,8 @@ export class RoomGateway implements OnGatewayInit , OnGatewayDisconnect {
 
   @WebSocketServer() wss: Server;
   private activeSockets: ActiveSocketType[] = [];
+  private allPositions: Positions[] = generationAllPositions(8,8);//Gerar posiçoes
+  private userPositions: { [key: string]: Positions } = {};//{idDoUsuario : {x,y}}
 
   async handleDisconnect(client: any) {
     
@@ -58,11 +87,22 @@ export class RoomGateway implements OnGatewayInit , OnGatewayDisconnect {
 
     if(!existingSocket){
       this.activeSockets.push({room: link, id: client.id, userId});
+
+
+      let position: Positions;
+      if(this.userPositions[userId]){
+        position = this.userPositions[userId];
+      }else{
+        position = randomPosition(this.allPositions);
+        this.userPositions[userId] = position;
+      }
+
+
       const dto = { 
         link,
         userId,
-        x: 2, 
-        y: 2, 
+        x: position.x, 
+        y: position.y, 
         orientation: 'down'
       } as UpdateUserPositionDto;
 
